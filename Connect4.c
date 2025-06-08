@@ -14,8 +14,8 @@ void printBoard(char** board, int width, int height){
 }
 
 //checking for a vertical line of 4 tokens of the same player
-void checkVertically(char** board, int heigth, int i, int j){
-    if(board[i][j] != ' ' && i < heigth-3){
+void checkVertically(char** board, int height, int i, int j){
+    if(board[i][j] != ' ' && i < height-3){
         if(board[i][j] == board[i+1][j]){
             if(board[i][j] == board[i+2][j]){
                 if(board[i][j] == board[i+3][j]){
@@ -25,13 +25,13 @@ void checkVertically(char** board, int heigth, int i, int j){
                         winer = 2;
                     }
                 }else{
-                    checkVertically(board, heigth, i+3, j);
+                    checkVertically(board, height, i+3, j);
                 }
             }else{
-                checkVertically(board, heigth, i+2, j);
+                checkVertically(board, height, i+2, j);
             }
         }else{
-            checkVertically(board, heigth, i+1, j);
+            checkVertically(board, height, i+1, j);
         }
     }
 }
@@ -60,8 +60,8 @@ void checkHorizontally(char** board, int width, int i, int j){
 }
 
 //checking for a diagonal line of 4 tokens of the same player from left to rigth
-void checkDiagonallyRigth(char** board, int width, int heigth, int i, int j){
-    if(i < heigth-3 && j < width-3){
+void checkDiagonallyRigth(char** board, int width, int height, int i, int j){
+    if(i < height-3 && j < width-3){
         if(board[i][j] == board[i+1][j+1] && board[i][j] != ' '){
             if(board[i][j] == board[i+2][j+2]){
                 if(board[i][j] == board[i+3][j+3]){
@@ -71,20 +71,20 @@ void checkDiagonallyRigth(char** board, int width, int heigth, int i, int j){
                         winer = 2;
                     }
                 }else{
-                    checkDiagonallyRigth(board, width, heigth, i+3, j+3);
+                    checkDiagonallyRigth(board, width, height, i+3, j+3);
                 }
             }else{
-                checkDiagonallyRigth(board, width, heigth, i+2, j+2);
+                checkDiagonallyRigth(board, width, height, i+2, j+2);
             }
         }else{
-            checkDiagonallyRigth(board, width, heigth, i+1, j+1);
+            checkDiagonallyRigth(board, width, height, i+1, j+1);
         }
     }
 }
 
 //checking for a diagonal line of 4 tokens of the same player from rigth to left
-void checkDiagonallyLeft(char** board, int width, int heigth, int i, int j){
-    if(i < heigth-3 && j > 2){
+void checkDiagonallyLeft(char** board, int width, int height, int i, int j){
+    if(i < height-3 && j > 2){
         if(board[i][j] == board[i+1][j-1] && board[i][j] != ' '){
             if(board[i][j] == board[i+2][j-2]){
                 if(board[i][j] == board[i+3][j-3]){
@@ -94,28 +94,28 @@ void checkDiagonallyLeft(char** board, int width, int heigth, int i, int j){
                         winer = 2;
                     }
                 }else{
-                    checkDiagonallyLeft(board, width, heigth, i+3, j-3);
+                    checkDiagonallyLeft(board, width, height, i+3, j-3);
                 }
             }else{
-                checkDiagonallyLeft(board, width, heigth, i+2, j-2);
+                checkDiagonallyLeft(board, width, height, i+2, j-2);
             }
         }else{
-            checkDiagonallyLeft(board, width, heigth, i+1, j-1);
+            checkDiagonallyLeft(board, width, height, i+1, j-1);
         }
     }
 }
 
 //using the four functions above until one finds the winer if there is
-void winerCheck(char** board, int width, int heigth){
+void winerCheck(char** board, int width, int height){
     for(int j=0; j<width; j++){
-        checkVertically(board, heigth, 0, j);
+        checkVertically(board, height, 0, j);
         if(winer > 0){
             break;
         }
     }
 
     if(winer == 0){
-        for(int i=0; i<heigth; i++){
+        for(int i=0; i<height; i++){
             checkHorizontally(board, width, i, 0);
             if(winer > 0){
                 break;
@@ -124,8 +124,8 @@ void winerCheck(char** board, int width, int heigth){
     }
 
     if(winer == 0){
-        for(int i=0; i<heigth; i++){
-            checkDiagonallyRigth(board, width, heigth, i, 0);
+        for(int i=0; i<height; i++){
+            checkDiagonallyRigth(board, width, height, i, 0);
             if(winer > 0){
                 break;
             }
@@ -133,7 +133,7 @@ void winerCheck(char** board, int width, int heigth){
     }
     if(winer == 0){
         for(int j=0; j<width; j++){
-            checkDiagonallyRigth(board, width, heigth, 0, j);
+            checkDiagonallyRigth(board, width, height, 0, j);
             if(winer > 0){
                 break;
             }
@@ -141,8 +141,8 @@ void winerCheck(char** board, int width, int heigth){
     }
 
     if(winer == 0){
-        for(int i=0; i<heigth; i++){
-            checkDiagonallyLeft(board, width, heigth, i, width-1);
+        for(int i=0; i<height; i++){
+            checkDiagonallyLeft(board, width, height, i, width-1);
             if(winer > 0){
                 break;
             }
@@ -150,7 +150,7 @@ void winerCheck(char** board, int width, int heigth){
     }
     if(winer == 0){
         for(int j=width-1; j>2; j--){
-            checkDiagonallyLeft(board, width, heigth, 0, j);
+            checkDiagonallyLeft(board, width, height, 0, j);
             if(winer > 0){
                 break;
             }
@@ -159,7 +159,7 @@ void winerCheck(char** board, int width, int heigth){
 }
 
 //the player chooses a column to place his token in
-void playerTurn(int n, char** board, int width, int heigth){
+void playerTurn(int n, char** board, int width, int height){
     printf("\nPlayer%d turn!\n", n);
     int column;
     int isfull = 1;
@@ -168,7 +168,7 @@ void playerTurn(int n, char** board, int width, int heigth){
         if(column<1 || column>width){
             printf("No such column. Pick from 1-%d\n", width);
         }else{
-            for(int i=0; i<heigth; i++){
+            for(int i=0; i<height; i++){
                 if(board[i][column-1] == ' '){
                     if(n == 1){
                         board[i][column-1] = 'O';
@@ -185,8 +185,148 @@ void playerTurn(int n, char** board, int width, int heigth){
         }
     }while(column<1 || column >width || isfull);
     
-    printBoard(board, width, heigth);
-    winerCheck(board, width, heigth);
+    printBoard(board, width, height);
+    winerCheck(board, width, height);
+}
+
+int score(char** board, int width , int height)
+{
+    int score = 0;
+
+    for(int row = 0 ; row < height ; row++)
+    {
+        for(int col = 0 ; col < width - 3 ; col++)
+        {
+            int ai = 0;
+            int op = 0;
+            for(int i = 0 ; i < 4 ; i++)
+            {
+                if(board[row][col+i] == 'O') ai++;
+                else if(board[row][col+i] == 'X') op++;
+            }
+            if(ai == 4) score+=100;
+            else if(ai == 3 && op == 0) score+=6;
+            else if(ai == 2 && op == 0) score+=2;
+            else if(op == 2 && ai ==0) score-=2;
+            else if(op == 3 && ai == 0) score-=15;
+        }
+    }
+
+    for(int col = 0 ; col < width ; col++)
+    {
+        for(int row = 0 ; row < height - 3 ; row++)
+        {
+            int ai = 0;
+            int op = 0;
+            for(int i = 0 ; i < 4 ; i++)
+            {
+                if(board[row+i][col] == 'O') ai++;
+                else if(board[row+i][col] == 'X') op++;
+            }
+            if(ai == 4) score+=100;
+            else if(ai == 3 && op == 0) score+=6;
+            else if(ai == 2 && op == 0) score+=2;
+            else if(op == 2 && ai ==0) score-=2;
+            else if(op == 3 && ai == 0) score-=15;
+        }
+    }
+
+    for(int row = 0 ; row < height - 3; row++)
+    {
+        for(int col = 0 ; col < width - 3 ; col++)
+        {
+            int ai = 0;
+            int op = 0;
+            for(int i = 0 ; i < 4 ; i++)
+            {
+                if(board[row+i][col+i] == 'O') ai++;
+                else if(board[row+i][col+i] == 'X') op++;
+            }
+            if(ai == 4) score+=100;
+            else if(ai == 3 && op == 0) score+=6;
+            else if(ai == 2 && op == 0) score+=2;
+            else if(op == 2 && ai ==0) score-=2;
+            else if(op == 3 && ai == 0) score-=15;
+        }
+    }
+
+    for(int row = 0 ; row < height - 3; row++)
+    {
+        for(int col = 3 ; col < width ; col++)
+        {
+            int ai = 0;
+            int op = 0;
+            for(int i = 0 ; i < 4 ; i++)
+            {
+                if(board[row+i][col-i] == 'O') ai++;
+                else if(board[row+i][col-i] == 'X') op++;
+            }
+            if(ai == 4) score+=100;
+            else if(ai == 3 && op == 0) score+=6;
+            else if(ai == 2 && op == 0) score+=2;
+            else if(op == 2 && ai ==0) score-=2;
+            else if(op == 3 && ai == 0) score-=15;
+        }
+    }
+
+    return score;
+}
+
+void aiTurn(char** board, int width, int height)
+{
+    int *scores = malloc(width*sizeof(int));
+    int isfull = 1;
+    for(int col = 0 ; col < width ; col++)
+    {
+        int h;
+
+        for(int i=0; i<height; i++)
+        {
+            if(board[i][col] == ' '){
+                board[i][col] = 'O';
+                isfull = 0;
+                h = i;
+                break;
+            }
+        }
+        if(isfull == 0)
+        {
+            scores[col]=score(board,width,height);
+            board[h][col] = ' ';
+        }
+        else 
+        {
+            scores[col] = -1000;
+        } 
+        isfull = 1;
+    }
+
+    printf("\n");
+
+    int max = scores[0];
+    int col = 0;
+    for(int i = 1 ; i<width ; i++)
+    {
+        if(scores[i]>max)
+        {
+            max = scores[i];
+            col = i;
+        }
+    }
+
+    for(int i=0; i<height; i++)
+    {
+        if(board[i][col] == ' ')
+        {
+            board[i][col] = 'O';
+            isfull = 0;
+            break;
+        }
+    }
+    
+    
+    printBoard(board, width, height);
+    winerCheck(board, width, height);
 }
 
 int main(void){
@@ -199,7 +339,7 @@ int main(void){
     FILE * file = fopen(filename, "w+");
 
     int width;
-    int heigth;
+    int height;
     //getting intput for the width of the board
     do{
         printf("Enter width of the board\n");
@@ -214,23 +354,23 @@ int main(void){
     }while(width>40 || width<4);
     printf("\n");
 
-    //getting input for the heigth of the board
+    //getting input for the height of the board
     do{
-        printf("Enter heigth of the board\n");
+        printf("Enter height of the board\n");
         printf("It must not be more than 20 or less than 4.\n");
-        scanf("%d", &heigth);
-        if(heigth<4){
+        scanf("%d", &height);
+        if(height<4){
             printf("Too small\n");
         }
-        if(heigth>40){
+        if(height>40){
             printf("Too big\n");
         }
-    }while(heigth>40 || heigth<4);
+    }while(height>40 || height<4);
     printf("\n");
 
     //creating a double array for the board
-    char ** board = calloc(heigth, sizeof(char*));
-    for(int i=0; i<heigth; i++){
+    char ** board = calloc(height, sizeof(char*));
+    for(int i=0; i<height; i++){
         board[i] = calloc(width, sizeof(char));
         for(int j=0; j<width; j++){
             board[i][j] = ' ';
@@ -250,15 +390,16 @@ int main(void){
     printf("\n");
 
     //printing the empty board
-    printBoard(board, width, heigth);
+    printBoard(board, width, height);
     printf("Start Game\n");
 
     //multiplayer - players taking turns until one wins or the board is full
-    if(type == 'm'){
+    if(type == 's'){
         int turns = 0;
         while(1){
-            playerTurn(turns%2+1, board, width, heigth);
-            for(int i=heigth-1; i>=0; i--){
+            if(turns%2==0) playerTurn(turns%2, board, width, height);
+            else aiTurn(board,width,height);
+            for(int i=height-1; i>=0; i--){
                 for(int j=0; j<width; j++){
                     fprintf(file, "|%c", board[i][j]);
                 }
@@ -267,12 +408,31 @@ int main(void){
             fprintf(file, "\n");
 
             turns++;
-            if(turns == width*heigth || winer > 0){
+            if(turns == width*height || winer > 0){
                 break;
             }
         }
         printf("\n");
-    }else if(type == 's'){
+    }
+
+    else if(type == 'm')
+    {
+        int turns = 0;
+        while(1){
+            playerTurn(turns%2+1, board, width, height);
+            for(int i=height-1; i>=0; i--){
+                for(int j=0; j<width; j++){
+                    fprintf(file, "|%c", board[i][j]);
+                }
+                fprintf(file, "|\n");
+            }
+            fprintf(file, "\n");
+
+            turns++;
+            if(turns == width*height || winer > 0){
+                break;
+            }
+        }
         printf("S\n");
     }
 
@@ -290,7 +450,7 @@ int main(void){
 
 
     //freeing allocated memory
-    for(int i=0; i<heigth; i++){
+    for(int i=0; i<height; i++){
         free(board[i]);
     }
     free(board);
