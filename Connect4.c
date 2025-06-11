@@ -201,8 +201,8 @@ int score(char** board, int width , int height)
             int op = 0;
             for(int i = 0 ; i < 4 ; i++)
             {
-                if(board[row][col+i] == 'O') ai++;
-                else if(board[row][col+i] == 'X') op++;
+                if(board[row][col+i] == 'X') ai++;
+                else if(board[row][col+i] == 'O') op++;
             }
             if(ai == 4) score+=100;
             else if(ai == 3 && op == 0) score+=6;
@@ -220,8 +220,8 @@ int score(char** board, int width , int height)
             int op = 0;
             for(int i = 0 ; i < 4 ; i++)
             {
-                if(board[row+i][col] == 'O') ai++;
-                else if(board[row+i][col] == 'X') op++;
+                if(board[row+i][col] == 'X') ai++;
+                else if(board[row+i][col] == 'O') op++;
             }
             if(ai == 4) score+=100;
             else if(ai == 3 && op == 0) score+=6;
@@ -239,8 +239,8 @@ int score(char** board, int width , int height)
             int op = 0;
             for(int i = 0 ; i < 4 ; i++)
             {
-                if(board[row+i][col+i] == 'O') ai++;
-                else if(board[row+i][col+i] == 'X') op++;
+                if(board[row+i][col+i] == 'X') ai++;
+                else if(board[row+i][col+i] == 'O') op++;
             }
             if(ai == 4) score+=100;
             else if(ai == 3 && op == 0) score+=6;
@@ -258,8 +258,8 @@ int score(char** board, int width , int height)
             int op = 0;
             for(int i = 0 ; i < 4 ; i++)
             {
-                if(board[row+i][col-i] == 'O') ai++;
-                else if(board[row+i][col-i] == 'X') op++;
+                if(board[row+i][col-i] == 'X') ai++;
+                else if(board[row+i][col-i] == 'O') op++;
             }
             if(ai == 4) score+=100;
             else if(ai == 3 && op == 0) score+=6;
@@ -274,6 +274,7 @@ int score(char** board, int width , int height)
 
 void aiTurn(char** board, int width, int height)
 {
+    printf("\nPlayer2 turn!\n");
     int *scores = malloc(width*sizeof(int));
     int isfull = 1;
     for(int col = 0 ; col < width ; col++)
@@ -283,7 +284,7 @@ void aiTurn(char** board, int width, int height)
         for(int i=0; i<height; i++)
         {
             if(board[i][col] == ' '){
-                board[i][col] = 'O';
+                board[i][col] = 'X';
                 isfull = 0;
                 h = i;
                 break;
@@ -318,7 +319,7 @@ void aiTurn(char** board, int width, int height)
     {
         if(board[i][col] == ' ')
         {
-            board[i][col] = 'O';
+            board[i][col] = 'X';
             isfull = 0;
             break;
         }
@@ -380,6 +381,7 @@ int main(void){
     //choosing singleplayer or multiplayer
     char type;
     do{
+        printf("Choose Gamemode:\n");
         printf("'s' - singleplayer\n");
         printf("'m' - multyplayer\n");
         scanf("\n%c", &type);
@@ -393,11 +395,11 @@ int main(void){
     printBoard(board, width, height);
     printf("Start Game\n");
 
-    //multiplayer - players taking turns until one wins or the board is full
+    //singleplayer - the player takes his turn and then the ai
     if(type == 's'){
         int turns = 0;
         while(1){
-            if(turns%2==0) playerTurn(turns%2, board, width, height);
+            if(turns%2==0) playerTurn(turns%2+1, board, width, height);
             else aiTurn(board,width,height);
             for(int i=height-1; i>=0; i--){
                 for(int j=0; j<width; j++){
@@ -414,9 +416,8 @@ int main(void){
         }
         printf("\n");
     }
-
-    else if(type == 'm')
-    {
+    //multiplayer - players taking turns until one wins or the board is full
+    else if(type == 'm'){
         int turns = 0;
         while(1){
             playerTurn(turns%2+1, board, width, height);
@@ -433,7 +434,6 @@ int main(void){
                 break;
             }
         }
-        printf("S\n");
     }
 
     switch(winer){
